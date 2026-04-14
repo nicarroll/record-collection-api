@@ -10,5 +10,6 @@ obj/
 *.gz
 node_modules/
 
-# Ignore local secrets if this file contains real credentials
-appsettings.Development.json
+# Ignore local secrets
+api/appsettings.Development.json
+.env
