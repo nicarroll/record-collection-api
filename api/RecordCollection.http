@@ -1,0 +1,21 @@
+@RecordCollection_HostAddress = http://localhost:5093
+
+GET {{RecordCollection_HostAddress}}/api/recordcollection
+Accept: application/json
+
+###
+
+GET {{RecordCollection_HostAddress}}/api/recordcollection/13
+Accept: application/json
+
+###
+
+POST {{RecordCollection_HostAddress}}/api/recordcollection
+Content-Type: application/json
+
+{
+    "artistName" : "Phoebe Snow",
+    "albumTitle" : "Phoebe Snow",
+    "releaseYear" : 1976,
+    "discogsId" : 927644321
+}
