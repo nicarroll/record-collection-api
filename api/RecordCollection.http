@@ -14,8 +14,24 @@ POST {{RecordCollection_HostAddress}}/api/recordcollection
 Content-Type: application/json
 
 {
-    "artistName" : "Phoebe Snow",
-    "albumTitle" : "Phoebe Snow",
-    "releaseYear" : 1976,
-    "discogsId" : 927644321
+    "artistName" : "The Wallflowers",
+    "albumTitle" : "Bringing Down the Horse",
+    "releaseYear" : 1996,
+    "discogsId" : 927532321
+}
+
+###
+
+DELETE {{RecordCollection_HostAddress}}/api/recordcollection/4
+
+###
+
+PUT {{RecordCollection_HostAddress}}/api/recordcollection/4
+Content-Type: application/json
+
+{
+    "artistName" : "Counting Crows",
+    "albumTitle" : "August and Everything After",
+    "releaseYear" : 1993,
+    "discogsId" : 921254321
 }

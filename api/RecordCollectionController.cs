@@ -68,9 +68,8 @@ public class RecordCollectionController : ControllerBase
         return Ok(record);
     }
 
-    
 
-
+    //Add a new record to the collection
     [HttpPost]
     public async Task<IActionResult> Post(RecordCollection record)
     {
@@ -98,4 +97,56 @@ public class RecordCollectionController : ControllerBase
         
         return Ok(record);
     }
+    
+    //Delete a record from the collection
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+        await using var conn = new NpgsqlConnection(connectionString);
+        await conn.OpenAsync();
+
+        var sql = "DELETE FROM records WHERE id = @id";
+
+        var rowsAffected = await conn.ExecuteAsync(sql, new { id });
+
+        if (rowsAffected == 0)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
+
+    //Update a record in the collection
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, RecordCollection record)
+    {
+        var connectionString = _configuration.GetConnectionString("DefaultConnection"); 
+
+        await using var conn = new NpgsqlConnection(connectionString);
+        await conn.OpenAsync();
+
+        var sql = @"
+            UPDATE records
+            SET artist_name = @artist_name, album_title = @album_title, release_year = @release_year, discogs_id = @discogs_id
+            WHERE id = @id";
+
+        var rowsAffected = await conn.ExecuteAsync(sql, new {
+            artist_name = record.ArtistName,
+            album_title = record.AlbumTitle,
+            release_year = record.ReleaseYear,
+            discogs_id = record.DiscogsId
+        });
+
+        if (rowsAffected == 0)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
 }
