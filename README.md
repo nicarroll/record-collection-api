@@ -2,31 +2,72 @@
 
 RESTful API built with .NET, Dapper, and PostgreSQL for managing a personal record collection.
 
-## Features
+This project demonstrates building a clean, layered backend architecture with dependency injection, async data access, and Dockerized infrastructure.
 
-- Get all records
-- Get record by ID
-- Add new records
-- PostgreSQL database integration
-- Lightweight data access using Dapper
-- Dockerized development environment
+The API provides endpoints for creating, retrieving, updating, and deleting records in a PostgreSQL database.
+
+## Why I Built This
+
+I built this project to strengthen my backend development skills, specifically:
+
+- Designing RESTful APIs in ASP.NET Core
+- Using Dapper for lightweight data access
+- Structuring applications with controllers, services, and interfaces
+- Working with PostgreSQL in a containerized environment
+
+The goal was to move beyond basic CRUD and implement a more maintainable, scalable architecture.
+
+## Architecture
+
+The project follows a layered structure:
+
+- **Controllers**: Handle HTTP requests and responses
+- **Services**: Contain data access logic and business rules
+- **Models**: Represent the data structure
+
+Dependency Injection is used to decouple the controller from the data layer via the `IRecordCollectionService` interface.
 
 ## Tech Stack
 
-- .NET Web API
+- ASP.NET Core Web API
 - Dapper
 - PostgreSQL
 - Docker
 
 ## Endpoints
 
-| Method | Endpoint                          | Description            |
-|--------|----------------------------------|------------------------|
-| GET    | /api/recordcollection            | Get all records        |
-| GET    | /api/recordcollection/{id}       | Get record by ID       |
-| POST   | /api/recordcollection            | Create new record      |
+| Method | Endpoint                         | Description         |
+|--------|----------------------------------|---------------------|
+| GET    | /api/recordcollection            | Get all records     |
+| GET    | /api/recordcollection/{id}       | Get record by ID    |
+| POST   | /api/recordcollection            | Create new record   |
+| PUT    | /api/recordcollection/{id}       | Update record       |
+| DELETE | /api/recordcollection/{id}       | Delete record       |
 
-## Getting Started
+## Example Request
+
+POST /api/recordcollection
+
+```json
+{
+  "artistName": "Pink Floyd",
+  "albumTitle": "The Dark Side of the Moon",
+  "releaseYear": 1973,
+  "discogsId": 857532321
+}
+```
+
+## Example Response
+
+```json
+{
+  "id": 1,
+  "artistName": "Pink Floyd",
+  "albumTitle": "The Dark Side of the Moon",
+  "releaseYear": 1973,
+  "discogsId": 857532321
+}
+```
 
 ### Prerequisites
 - Docker
@@ -34,5 +75,27 @@ RESTful API built with .NET, Dapper, and PostgreSQL for managing a personal reco
 
 ### Run locally
 
+Start the database:
+
 ```bash
 docker-compose up --build
+```
+
+Then run the API:
+```bash
+cd api
+dotnet run
+```
+
+The API will be available at a local URL (e.g. http://localhost:5000).
+
+The exact port will be displayed in the console when the application starts.
+
+Once running, you can test the API using Postman, curl, or the included .http file.
+
+## Future Improvements
+
+- Add frontend UI (React)
+- Implement authentication/authorization
+- Add input validation with FluentValidation
+- Add integration tests

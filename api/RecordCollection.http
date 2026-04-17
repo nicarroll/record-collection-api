@@ -14,10 +14,10 @@ POST {{RecordCollection_HostAddress}}/api/recordcollection
 Content-Type: application/json
 
 {
-    "artistName" : "The Wallflowers",
-    "albumTitle" : "Bringing Down the Horse",
-    "releaseYear" : 1996,
-    "discogsId" : 927532321
+    "artistName" : "Phoebe Snow",
+    "albumTitle" : "Phoebe Snow",
+    "releaseYear" : 1974,
+    "discogsId" : 857532321
 }
 
 ###

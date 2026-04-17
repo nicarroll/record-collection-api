@@ -1,3 +1,4 @@
+namespace api.Models;
 public class RecordCollection
 {
     public int Id  { get; set; }
