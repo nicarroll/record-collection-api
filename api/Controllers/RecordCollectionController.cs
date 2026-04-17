@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Npgsql;
-using Dapper;
 using api.Services;
-using api.Models;
+using api.DTOs;
+using api.Mappings;
 
 
 namespace api.Controllers;
@@ -23,7 +22,11 @@ public class RecordCollectionController : ControllerBase
     public async Task<IActionResult> Get()
     {
         var records = await _service.GetAllAsync();
-        return Ok(records);
+
+        var response = records.Select(r => r.ToResponse())
+        .ToList();
+
+        return Ok(response);
     }
 
     //Get record by ID
@@ -35,94 +38,50 @@ public class RecordCollectionController : ControllerBase
         {
             return NotFound();
         }
-        return Ok(record);
+
+        var response = record.ToResponse();
+        return Ok(response);
     }
 
 
     //Add a new record to the collection
     [HttpPost]
-    public async Task<IActionResult> Post(RecordCollection record)
+    public async Task<IActionResult> Post(CreateRecordRequest request)
     {
-        
-        if (record == null)
-        {
-            return BadRequest("Record data is required.");
-        }
-
-        if (string.IsNullOrEmpty(record.ArtistName) || 
-        string.IsNullOrEmpty(record.AlbumTitle))
-        {
-            return BadRequest("Artist name and album title are required.");
-        }
-
-        if (record.ReleaseYear <= 0)
-        {
-            return BadRequest("Release year must be a positive integer.");
-        }
-
-        if (record.DiscogsId <= 0)
-        {
-            return BadRequest("Discogs ID must be a positive integer.");
-        }
-        
+        var record = request.ToModel();
         var created = await _service.CreateAsync(record);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
-        
-        
-        
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created.ToResponse());
     }
+
     
+    //Update a record in the collection
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, UpdateRecordRequest request)
+    {
+ 
+        var record = request.ToModelWithId(id);
+        var updated = await _service.UpdateAsync(record);
+
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+
+    }
+
     //Delete a record from the collection
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-            var deleted = await _service.DeleteAsync(id);            
-
-            if (!deleted)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
-    }   
-
-
-
-    //Update a record in the collection
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, RecordCollection record)
-    {
- 
-            if (record == null)
-            {
-                return BadRequest("Record data is required.");
-            }
-
-            if (string.IsNullOrEmpty(record.ArtistName) || string.IsNullOrEmpty(record.AlbumTitle))
-            {
-                return BadRequest("Artist name and album title are required.");
-            }
-
-            if (record.ReleaseYear <= 0)
-            {
-                return BadRequest("Release year must be a positive integer.");
-            }
-
-            if (record.DiscogsId <= 0)
-            {
-                return BadRequest("Discogs ID must be a positive integer.");
-            }
-
-            var updated = await _service.UpdateAsync(id, record);
-
-            if (!updated)
-            {
-                return NotFound();
-            }
-
-            return NoContent();
-
+        var deleted = await _service.DeleteAsync(id);
+        if (!deleted)
+        {
+            return NotFound();
+        }                                       
+        return NoContent();
     }
+
 
 }

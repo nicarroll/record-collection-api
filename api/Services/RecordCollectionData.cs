@@ -53,7 +53,7 @@ public class RecordCollectionData : IRecordCollectionService
         return record;
     }
 
-    public async Task<bool> UpdateAsync(int id, RecordCollection record)
+    public async Task<bool> UpdateAsync(RecordCollection record)
     {
         var connectionString = _configuration.GetConnectionString("DefaultConnection"); 
         await using var conn = new NpgsqlConnection(connectionString);
@@ -63,8 +63,8 @@ public class RecordCollectionData : IRecordCollectionService
                 SET artist_name = @ArtistName, album_title = @AlbumTitle, release_year = @ReleaseYear, discogs_id = @DiscogsId
                 WHERE id = @Id";
 
-            return await conn.ExecuteAsync(sql, new { Id = id, record.ArtistName, record.AlbumTitle,
-             record.ReleaseYear, record.DiscogsId }) > 0;    
+            return await conn.ExecuteAsync(sql, new { Id = record.Id, ArtistName = record.ArtistName, AlbumTitle = record.AlbumTitle,
+             ReleaseYear = record.ReleaseYear, DiscogsId = record.DiscogsId }) > 0;    
     }
 
     public async Task<bool> DeleteAsync(int id)

@@ -8,24 +8,44 @@ The API provides endpoints for creating, retrieving, updating, and deleting reco
 
 ## Why I Built This
 
-I built this project to strengthen my backend development skills, specifically:
+I built this project to demonstrate my backend development skills, specifically:
 
 - Designing RESTful APIs in ASP.NET Core
 - Using Dapper for lightweight data access
 - Structuring applications with controllers, services, and interfaces
 - Working with PostgreSQL in a containerized environment
 
-The goal was to move beyond basic CRUD and implement a more maintainable, scalable architecture.
+The goal was to go beyond basic CRUD operations and implement patterns commonly used in production systems, including layered architecture, DTO-based design, and clean separation of concerns.
+
+## Design Decisions
+
+- Introduced DTOs to separate API contracts from domain models and prevent tight coupling
+- Used a service layer to isolate application logic from HTTP concerns
+- Chose Dapper over Entity Framework for greater control and performance
+- Implemented extension methods for mapping to keep controllers clean and reduce repetition
+- Used Docker to ensure consistent local database setup
+
+## Key Features
+
+- Full CRUD API with proper HTTP status codes
+- Asynchronous database access using Dapper
+- Layered architecture with separation of concerns
+- DTO-based request/response design to isolate API contracts
+- Input validation using data annotations
+- Mapping between DTOs and domain models via extension methods
+- Dockerized PostgreSQL database for local development
 
 ## Architecture
 
 The project follows a layered structure:
 
-- **Controllers**: Handle HTTP requests and responses
-- **Services**: Contain data access logic and business rules
-- **Models**: Represent the data structure
+- **Controllers**: Handle HTTP requests, model binding, and response formatting
+- **Services**: Contain application logic and coordinate operations
+- **Repositories**: Handle data access using Dapper
+- **Models**: Represent domain entities
+- **DTOs**: Define request and response contracts for the API
 
-Dependency Injection is used to decouple the controller from the data layer via the `IRecordCollectionService` interface.
+Dependency Injection is used throughout to decouple layers and improve testability.
 
 ## Tech Stack
 
@@ -97,5 +117,6 @@ Once running, you can test the API using Postman, curl, or the included .http fi
 
 - Add frontend UI (React)
 - Implement authentication/authorization
-- Add input validation with FluentValidation
 - Add integration tests
+- Implement global exception handling middleware and structured logging
+- Add search, filtering, and sorting capabilities
