@@ -1,4 +1,4 @@
-@RecordCollection_HostAddress = http://localhost:5093
+@RecordCollection_HostAddress = http://localhost:8080
 
 GET {{RecordCollection_HostAddress}}/api/recordcollection
 Accept: application/json

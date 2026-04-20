@@ -6,13 +6,24 @@ This project demonstrates building a clean, layered backend architecture with de
 
 The API provides endpoints for creating, retrieving, updating, and deleting records in a PostgreSQL database.
 
+## Quick Start
+
+```bash
+git clone <your-repo-url>
+cd record-collection-api
+cp .env.example .env
+docker compose up --build
+```
+
+Then open: http://localhost:8080/swagger
+
 ## Why I Built This
 
 I built this project to demonstrate my backend development skills, specifically:
 
 - Designing RESTful APIs in ASP.NET Core
 - Using Dapper for lightweight data access
-- Structuring applications with controllers, services, and interfaces
+- Structuring applications using layered architecture (controllers, services, and interfaces)
 - Working with PostgreSQL in a containerized environment
 
 The goal was to go beyond basic CRUD operations and implement patterns commonly used in production systems, including layered architecture, DTO-based design, and clean separation of concerns.
@@ -24,16 +35,7 @@ The goal was to go beyond basic CRUD operations and implement patterns commonly 
 - Chose Dapper over Entity Framework for greater control and performance
 - Implemented extension methods for mapping to keep controllers clean and reduce repetition
 - Used Docker to ensure consistent local database setup
-
-## Key Features
-
-- Full CRUD API with proper HTTP status codes
-- Asynchronous database access using Dapper
-- Layered architecture with separation of concerns
-- DTO-based request/response design to isolate API contracts
-- Input validation using data annotations
-- Mapping between DTOs and domain models via extension methods
-- Dockerized PostgreSQL database for local development
+- Used DbUp for database migrations to ensure schema is versioned and automatically applied on startup
 
 ## Architecture
 
@@ -46,6 +48,17 @@ The project follows a layered structure:
 - **DTOs**: Define request and response contracts for the API
 
 Dependency Injection is used throughout to decouple layers and improve testability.
+
+## Key Features
+
+- Full CRUD API with proper HTTP status codes
+- Asynchronous database access using Dapper
+- Layered architecture with separation of concerns
+- DTO-based request/response design to isolate API contracts
+- Input validation using data annotations
+- Mapping between DTOs and domain models via extension methods
+- Dockerized PostgreSQL database for local development
+- Automatic database migrations using DbUp on startup
 
 ## Tech Stack
 
@@ -89,34 +102,18 @@ POST /api/recordcollection
 }
 ```
 
-### Prerequisites
-- Docker
-- .NET SDK
+## Local Development (Optional)
 
-### Run locally
-
-Start the database:
-
-```bash
-docker-compose up --build
-```
-
-Then run the API:
-```bash
-cd api
-dotnet run
-```
-
-The API will be available at a local URL (e.g. http://localhost:5000).
-
-The exact port will be displayed in the console when the application starts.
-
-Once running, you can test the API using Postman, curl, or the included .http file.
+If running without Docker, create an `appsettings.Development.json` file based on the example and configure your local database connection.
 
 ## Future Improvements
 
-- Add frontend UI (React)
-- Implement authentication/authorization
-- Add integration tests
-- Implement global exception handling middleware and structured logging
 - Add search, filtering, and sorting capabilities
+- Implement global exception handling middleware and structured logging
+- Add authentication/authorization
+- Add integration tests
+- Add frontend UI (React)
+
+
+
+
