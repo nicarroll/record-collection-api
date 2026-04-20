@@ -9,7 +9,7 @@ The API provides endpoints for creating, retrieving, updating, and deleting reco
 ## Quick Start
 
 ```bash
-git clone <your-repo-url>
+git clone <https://github.com/nicarroll/record-collection-api>
 cd record-collection-api
 cp .env.example .env
 docker compose up --build
