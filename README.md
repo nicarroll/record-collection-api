@@ -41,11 +41,11 @@ The goal was to go beyond basic CRUD operations and implement patterns commonly 
 
 The project follows a layered structure:
 
-- **Controllers**: Handle HTTP requests, model binding, and response formatting
-- **Services**: Contain application logic and coordinate operations
-- **Repositories**: Handle data access using Dapper
+- **Controllers**: Handle HTTP requests/responses
+- **Services**: Contain application logic and currently perform Dapper-based data access
 - **Models**: Represent domain entities
-- **DTOs**: Define request and response contracts for the API
+- **DTOs**: Define request/response contracts
+- **Mapping**: extension methods convert between DTO's and models
 
 Dependency Injection is used throughout to decouple layers and improve testability.
 
@@ -65,7 +65,18 @@ Dependency Injection is used throughout to decouple layers and improve testabili
 - ASP.NET Core Web API
 - Dapper
 - PostgreSQL
+- DbUp
 - Docker
+
+## Running with Docker
+
+The application is designed for a Docker-first workflow.
+
+Services include:
+- db: PostgreSQL container with persistent volume storage and healthcheck
+- api: ASP.NET Core Web API container that waits for the database to become healthy before starting
+
+Configuration is provided through .env, with .env.example included as a setup template.
 
 ## Endpoints
 
