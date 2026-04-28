@@ -1,0 +1,11 @@
+<h2>Records</h2>
+
+@if (records$ | async; as records) {
+  <p>Record count: {{ records.length }}</p>
+
+  <ul>
+    @for (item of records; track item.id) {
+      <li>{{ item.artistName }} - {{ item.albumTitle }} ({{ item.releaseYear }})</li>
+    }
+  </ul>
+}
